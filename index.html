@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multimedia Cup 2025 - Formulir Pendaftaran</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            color: #fff;
+            overflow-x: hidden;
+            background: #000;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader {
+            width: 80px;
+            height: 80px;
+            border: 8px solid rgba(212, 175, 55, 0.3);
+            border-top: 8px solid #D4AF37;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: #D4AF37;
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .gold-shine {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(125deg, transparent 0%, rgba(212, 175, 55, 0.03) 40%, transparent 70%, rgba(212, 175, 55, 0.03) 100%);
+            z-index: -1;
+            animation: shine 8s linear infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 100px 0 80px;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.2) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        .logo {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            color: #D4AF37;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            animation: pulse 2s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); text-shadow: 0 0 20px rgba(212, 175, 55, 0.5); }
+            100% { transform: scale(1.05); text-shadow: 0 0 30px rgba(212, 175, 55, 0.8); }
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            background: linear-gradient(to right, #D4AF37, #FFD700, #D4AF37);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            font-weight: 400;
+            color: #ccc;
+        }
+
+        .registration-deadline {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #D4AF37;
+            border-radius: 10px;
+            padding: 15px 30px;
+            display: inline-block;
+            margin-bottom: 40px;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .registration-deadline h3 {
+            color: #D4AF37;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #D4AF37;
+            border-radius: 10px;
+            padding: 20px 15px;
+            min-width: 110px;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .countdown-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .countdown-number {
+            font-size: 2.8rem;
+            font-weight: 700;
+            display: block;
+            color: #D4AF37;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+
+        .countdown-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: #ccc;
+            letter-spacing: 1px;
+        }
+
+        .sports-section {
+            padding: 80px 0;
+            background: rgba(10, 10, 10, 0.9);
+            border-top: 2px solid #D4AF37;
+            position: relative;
+            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .sports-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 30% 70%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 70% 30%, rgba(212, 175, 55, 0.03) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 60px;
+            background: linear-gradient(to right, #D4AF37, #FFD700, #D4AF37);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .sports-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .sport-card {
+            background: rgba(20, 20, 20, 0.9);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            position: relative;
+            z-index: 1;
+            border: 1px solid #333;
+        }
+
+        .sport-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(212, 175, 55, 0.03), transparent);
+            z-index: -1;
+        }
+
+        .sport-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.2);
+            border-color: #D4AF37;
+        }
+
+        .card-header {
+            padding: 35px 20px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid #333;
+        }
+
+        .card-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(20, 20, 20, 0.9));
+            z-index: -1;
+        }
+
+        .badminton .card-header {
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+        }
+
+        .futsal .card-header {
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+        }
+
+        .basket .card-header {
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+        }
+
+        .sport-icon {
+            font-size: 4.5rem;
+            margin-bottom: 20px;
+            display: block;
+            color: #D4AF37;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+        }
+
+        .sport-name {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #D4AF37;
+        }
+
+        .sport-date {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            color: #ccc;
+        }
+
+        .card-content {
+            padding: 30px;
+        }
+
+        .card-content p {
+            margin-bottom: 25px;
+            color: #aaa;
+            line-height: 1.8;
+        }
+
+        .register-btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #D4AF37, #FFD700, #D4AF37);
+            background-size: 200% 200%;
+            color: #000;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.4s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 1px;
+        }
+
+        .register-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.7s;
+        }
+
+        .register-btn:hover::before {
+            left: 100%;
+        }
+
+        .register-btn:hover {
+            background-position: right center;
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        footer {
+            background: #000;
+            color: #ccc;
+            padding: 60px 0 30px;
+            text-align: center;
+            border-top: 1px solid #333;
+            position: relative;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #D4AF37;
+        }
+
+        .contact-info {
+            margin: 25px 0;
+        }
+
+        .contact-info p {
+            margin: 12px 0;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .contact-info i {
+            color: #D4AF37;
+            width: 20px;
+        }
+
+        .copyright {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 968px) {
+            h1 {
+                font-size: 3rem;
+            }
+            
+            .sports-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 80px 0 60px;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .logo {
+                font-size: 4rem;
+            }
+            
+            .countdown {
+                gap: 15px;
+            }
+            
+            .countdown-item {
+                min-width: 90px;
+                padding: 15px 10px;
+            }
+            
+            .countdown-number {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 60px 0 40px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+                letter-spacing: 2px;
+            }
+            
+            .logo {
+                font-size: 3.5rem;
+            }
+            
+            .countdown {
+                gap: 10px;
+            }
+            
+            .countdown-item {
+                min-width: 70px;
+                padding: 12px 8px;
+            }
+            
+            .countdown-number {
+                font-size: 1.8rem;
+            }
+            
+            .sport-card {
+                margin: 0 10px;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader"></div>
+        <div class="loading-text">Loading Multimedia Cup 2025...</div>
+    </div>
+
+    <!-- Gold Shine Effect -->
+    <div class="gold-shine"></div>
+
+    <!-- Header Section -->
+    <header>
+        <div class="header-glow"></div>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-trophy"></i>
+            </div>
+            <h1>Multimedia Cup 2025</h1>
+            <p class="subtitle">Formulir Pendaftaran Lomba</p>
+            
+            <!-- Registration Deadline -->
+            <div class="registration-deadline">
+                <h3>Pendaftaran Ditutup Pada:</h3>
+                <p>12 Oktober 2025 - 23:59 WIB</p>
+            </div>
+            
+            <!-- Countdown Timer -->
+            <div class="countdown" id="countdown">
+                <div class="countdown-item">
+                    <span class="countdown-number" id="days">00</span>
+                    <span class="countdown-label">Hari</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="hours">00</span>
+                    <span class="countdown-label">Jam</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="minutes">00</span>
+                    <span class="countdown-label">Menit</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="seconds">00</span>
+                    <span class="countdown-label">Detik</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sports Section -->
+    <section class="sports-section">
+        <div class="container">
+            <h2 class="section-title">Cabang Olahraga</h2>
+            
+            <div class="sports-grid">
+                <!-- Badminton Card -->
+                <div class="sport-card badminton">
+                    <div class="card-header">
+                        <i class="sport-icon fas fa-table-tennis-paddle-ball"></i>
+                        <h3 class="sport-name">Badminton</h3>
+                        <p class="sport-date">Sabtu, 18 Oktober 2025</p>
+                    </div>
+                    <div class="card-content">
+                        <p>Bergabunglah dalam turnamen bulu tangkis seru dengan sistem gugur. Terbuka untuk semua peserta dengan berbagai tingkat keahlian.</p>
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSebakKELyHXGfsMATsjiQgjgDRywO8Kx2_LxY-CtG4mXF7xNw/viewform?usp=header
+" class="register-btn" target="_blank">Daftar Sekarang</a>
+                    </div>
+                </div>
+                
+                <!-- Futsal Card -->
+                <div class="sport-card futsal">
+                    <div class="card-header">
+                        <i class="sport-icon fas fa-futbol"></i>
+                        <h3 class="sport-name">Futsal</h3>
+                        <p class="sport-date">Minggu, 19 Oktober 2025</p>
+                    </div>
+                    <div class="card-content">
+                        <p>Turnamen futsal 5v5 dengan sistem grup dan knockout. Ajak timmu dan tunjukkan skill terbaik di lapangan!</p>
+                        <a href="https://forms.gle/mqPy6rhGEzQRpQAb9
+" class="register-btn" target="_blank">Daftar Sekarang</a>
+                    </div>
+                </div>
+                
+                <!-- Basket Card -->
+                <div class="sport-card basket">
+                    <div class="card-header">
+                        <i class="sport-icon fas fa-basketball-ball"></i>
+                        <h3 class="sport-name">Basket</h3>
+                        <p class="sport-date">Minggu, 2 Nov - Rabu, 5 Nov 2025</p>
+                    </div>
+                    <div class="card-content">
+                        <p>Kompetisi basket 5v5 dengan format seru selama 4 hari. Daftarkan timmu dan rebut gelar juara!</p>
+                        <a href=" https://forms.gle/VcoRgRjdVSMFv6zp6" class="register-btn" target="_blank">Daftar Sekarang</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h3>Multimedia Cup 2025</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-user"></i> Contact Person: Mochamad Roby Aliansyah (Ketua Divisi Acara)</p>
+                    <p><i class="fas fa-phone"></i> Telepon: +62 813-8284-6308</p>
+                    <p><i class="fas fa-envelope"></i> IG: @multimediacup_</p>
+                </div>
+                <div class="copyright">
+                    <p>&copy; 2025 Multimedia Cup. Semua Hak Dilindungi.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Loading Screen Animation
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('loadingScreen').classList.add('hidden');
+            }, 1500);
+        });
+
+        // Countdown Timer - Updated for October 12, 2025
+        function updateCountdown() {
+            const eventDate = new Date('October 12, 2025 23:59:00').getTime();
+            const now = new Date().getTime();
+            const timeLeft = eventDate - now;
+            
+            if (timeLeft < 0) {
+                document.getElementById('countdown').innerHTML = '<div class="countdown-item"><span class="countdown-number">Pendaftaran</span><span class="countdown-label">Telah Ditutup</span></div>';
+                return;
+            }
+            
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+        
+        // Update countdown every second
+        setInterval(updateCountdown, 1000);
+        updateCountdown(); // Initial call
+
+        // Add scroll effect for header
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const header = document.querySelector('header');
+            if (scrolled > 50) {
+                header.style.opacity = 0.95;
+                header.style.transform = 'translateY(-10px)';
+            } else {
+                header.style.opacity = 1;
+                header.style.transform = 'translateY(0)';
+            }
+        });
+
+        // Add hover effects to countdown items
+        document.querySelectorAll('.countdown-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.05)';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
